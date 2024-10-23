@@ -1,9 +1,17 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2024-04-03',
+  compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
-  modules: ['nuxt-auth-sanctum', "@pinia/nuxt"],
+  modules: ["nuxt-auth-sanctum", "@pinia/nuxt", "@nuxtjs/google-fonts"],
   ssr: false,
+
+  googleFonts: {
+    families: {
+      Inter: true, // google fontsから取得
+      "Noto+Sans+JP": true,
+    },
+    display: "swap",
+  },
 
   // nuxt-auth-sanctum options
   sanctum: {
@@ -38,4 +46,4 @@ export default defineNuxtConfig({
     },
     logLevel: 3,
   },
-})
+});

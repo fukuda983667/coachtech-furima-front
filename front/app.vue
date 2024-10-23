@@ -4,7 +4,7 @@
   </NuxtLayout>
 </template>
 
-<style>
+<style lang="scss">
 #__nuxt {
   width: 100%;
 }

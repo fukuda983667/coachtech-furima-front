@@ -1,7 +1,16 @@
 <template>
         <header class="header">
             <div class="header__container">
-                <h1>layouts/default.vue</h1>
+                <h1>
+                    <a class="link" href="/">
+                        <img src="../public/icon/logo.svg" alt="ヘッダーロゴ">
+                    </a>
+                </h1>
+                <div class="button__wrapper" v-if="isAuthenticated">
+                    <NuxtLink class="link" @click="performLogout">ログアウト</NuxtLink>
+                    <NuxtLink class="link" to="/mypage">マイページ</NuxtLink>
+                    <NuxtLink class="link sell" to="/sell">出品</NuxtLink>
+                </div>
             </div>
         </header>
         <main class="main">
@@ -9,3 +18,77 @@
         </main>
         <footer class="footer"></footer>
 </template>
+
+
+<script setup>
+const { isAuthenticated, logout } = useSanctumAuth()
+const router = useRouter();
+
+const performLogout = async () => {
+    try {
+        // ユーザーをログアウトさせる
+        await logout()
+
+        // ログアウト成功後にリダイレクト
+        router.push('/login') // リダイレクト先を必要に応じて変更してください
+    } catch (error) {
+        console.error('ログアウトに失敗しました:', error)
+    }
+}
+</script>
+
+
+<style>
+body {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    background-color: #fff;
+    font-display: swap;
+
+    font-family: "Inter", "Noto Sans JP", sans-serif;
+}
+
+.main {
+    padding: 0 60px;
+}
+</style>
+
+<style lang="scss" scoped>
+.header {
+    background-color: #000;
+    .header__container {
+        display: flex;
+        margin: 0 auto;
+        padding: 0 20px;
+        height: 80px;
+        max-width: 1300px;
+        justify-content: space-between;
+        align-items: center;
+            h1 {
+                margin: 0;
+                height: 32px;
+            }
+    }
+}
+
+.button__wrapper {
+    .link {
+        color: white;
+        font-size: 24px;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        &:not(:last-child) {
+            margin-right: 15px;
+        }
+    }
+    .link.sell {
+        padding: 10px 26px;
+        color: black;
+        background-color: white;
+        border-radius: 4px;
+    }
+}
+
+</style>
