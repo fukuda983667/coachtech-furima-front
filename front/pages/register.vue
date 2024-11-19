@@ -45,8 +45,10 @@ import * as yup from 'yup';
 // 未認証ユーザのみ閲覧可能
 definePageMeta({
     middleware: ['sanctum:guest'],
+    layout: 'auth',
 });
 
+const { login } = useSanctumAuth()
 const router = useRouter()
 
 
@@ -104,7 +106,8 @@ const register = async () => {
         })
 
         console.log('登録成功')
-        router.push('/login') // // 登録成功後、ホームページへ遷移
+
+        router.push('/message') // // 登録成功後、ホームページへ遷移
     } catch (error) {
         console.error('登録エラー:', error)
     }
@@ -182,7 +185,6 @@ const register = async () => {
     transition: background-color 0.3s; /* 背景色の変化にアニメーションを追加 */
 
     &:disabled {
-        background-color: #ccc;
         cursor: not-allowed;
     }
 
@@ -190,7 +192,7 @@ const register = async () => {
         background-color: #d84b4b; /* ホバー時の背景色を設定 */
     }
 }
-
+ 
 
 .link__login {
     margin: 30px auto 0;
