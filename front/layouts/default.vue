@@ -1,22 +1,23 @@
 <template>
-        <header class="header">
-            <div class="header__container">
-                <h1>
-                    <a class="link" href="/">
-                        <img src="../public/icon/logo.svg" alt="ヘッダーロゴ">
-                    </a>
-                </h1>
-                <div class="button__wrapper" v-if="isAuthenticated">
-                    <NuxtLink class="link" @click="performLogout">ログアウト</NuxtLink>
-                    <NuxtLink class="link" to="/mypage">マイページ</NuxtLink>
-                    <NuxtLink class="link sell" to="/sell">出品</NuxtLink>
-                </div>
+    <header class="header">
+        <div class="header__container">
+            <h1>
+                <a class="link" href="/">
+                    <img src="../public/icon/logo.svg" alt="ヘッダーロゴ">
+                </a>
+            </h1>
+            <div class="button__wrapper" >
+                <NuxtLink class="link" v-if="isAuthenticated" @click="performLogout">ログアウト</NuxtLink>
+                <NuxtLink class="link" v-else to="/login">ログイン</NuxtLink>
+                <NuxtLink class="link" to="/mypage">マイページ</NuxtLink>
+                <NuxtLink class="link sell" to="/sell">出品</NuxtLink>
             </div>
-        </header>
-        <main class="main">
-            <NuxtPage />
-        </main>
-        <footer class="footer"></footer>
+        </div>
+    </header>
+    <main class="main">
+        <NuxtPage />
+    </main>
+    <footer class="footer"></footer>
 </template>
 
 
@@ -50,7 +51,9 @@ body {
 }
 
 .main {
-    padding: 0 60px;
+    margin: 0 auto;
+    padding: 0 20px;
+    max-width: 1350px;
 }
 </style>
 
@@ -62,7 +65,7 @@ body {
         margin: 0 auto;
         padding: 0 20px;
         height: 80px;
-        max-width: 1300px;
+        max-width: 1350px;
         justify-content: space-between;
         align-items: center;
             h1 {
@@ -80,7 +83,7 @@ body {
         border: none;
         cursor: pointer;
         &:not(:last-child) {
-            margin-right: 15px;
+            margin-right: 20px;
         }
     }
     .link.sell {
