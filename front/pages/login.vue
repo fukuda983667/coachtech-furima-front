@@ -26,6 +26,7 @@ import * as yup from 'yup';
 // 未認証ログインユーザのみ閲覧可能
 definePageMeta({
     middleware: ['sanctum:guest'],
+    layout: 'auth',
 });
 
 const router = useRouter()
@@ -149,7 +150,6 @@ const performLogin = async () => {
     transition: background-color 0.3s; /* 背景色の変化にアニメーションを追加 */
 
     &:disabled {
-        background-color: #ccc;
         cursor: not-allowed;
     }
 
