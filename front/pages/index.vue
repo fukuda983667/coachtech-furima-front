@@ -4,14 +4,14 @@
             <button
                 class="filter__button"
                 :class="{ active: filterType === 'all' }"
-                @click="filterItems('all')"
+                @click="setFilterType('all')"
             >
                 おすすめ
             </button>
             <button
                 class="filter__button"
                 :class="{ active: filterType === 'favorites' }"
-                @click="filterItems('favorites')"
+                @click="setFilterType('favorites')"
             >
                 マイリスト
             </button>
@@ -33,41 +33,18 @@ definePageMeta({
     layout: 'default',
 });
 
+import { useItemStore } from '@/stores/itemStore';
 
-const items = ref()
+const itemStore = useItemStore();
+const { fetchItems, setFilterType } = itemStore; //itemStoreから関数取得
 
-const client = useSanctumClient()
-const getItems = async () => {
-    try {
-        const response = await client('http://localhost:8080/api/items')
-
-        items.value = response.items;
-    } catch (error) {
-        console.error('全アイテム取得エラー', error)
-    }
-}
-
-const filteredItems = ref([]);
-const filterType = ref('all'); // フィルター初期値"all"
-
-const applyFilter = () => {
-    if (filterType.value === 'all') {
-        filteredItems.value = items.value;
-    } else if (filterType.value === 'favorites') {
-        filteredItems.value = items.value.filter((item) => item.isLiked);
-    }
-};
-
-const filterItems = (type) => {
-    filterType.value = type;
-    applyFilter();
-};
+const filterType = computed(() => itemStore.filterType); //itemStoreからデータを参照
+const filteredItems = computed(() => itemStore.filteredItems); //itemStoreからデータを参照
 
 
 // コンポーネントがマウントされたときに取得
 onMounted(async () => {
-    await getItems()
-    await applyFilter()
+    await fetchItems()
 })
 </script>
 
@@ -115,7 +92,7 @@ onMounted(async () => {
 
     .list__item {
         margin-bottom: 50px;
-        padding: 0 35px;
+        padding: 0 2.5%;
         width: 25%; /* 各アイテムの幅を25%に設定 */
         list-style: none;
         box-sizing: border-box; /* パディングを含めて幅を計算 */
