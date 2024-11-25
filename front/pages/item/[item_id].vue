@@ -118,7 +118,7 @@ onMounted(async () => {
 <style lang="scss" scoped>
 .item-detail__container {
     display: flex;
-    margin: 0 auto;
+    margin: auto;
     padding: 0 20px;
     max-width: 1350px;
 
@@ -129,7 +129,7 @@ onMounted(async () => {
 
         .item__image {
             position: sticky; /* 追従する設定 */
-            top: 120px; /* 上部からの距離 */
+            top: 180px; /* 上部からの距離 */
             width: 100%;
             aspect-ratio: 1 / 1; /* 正方形のアスペクト比を設定 */
             object-fit: cover;   /* 短い方を基準に画像を中央に表示 */
@@ -138,6 +138,7 @@ onMounted(async () => {
     }
 
     .item-detail__sidebar {
+        margin-top: 60px;
         padding: 0 2.8%;
         width: 50%;
         box-sizing: border-box;
