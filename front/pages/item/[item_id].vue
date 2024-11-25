@@ -68,10 +68,11 @@ const item = ref()
 const isLiked = ref()
 const likeCount = ref()
 const comments = ref([])
-const commentCount = ref()
+const commentCount = ref(0)
 const route = useRoute()
-// 動的パラメータを取得
-const itemId = route.params.item_id
+
+// 動的パラメータを取得。そのまま取得すると文字列としてidが格納されてしまう。
+const itemId = Number(route.params.item_id);
 
 const client = useSanctumClient()
 const getItem = async () => {
