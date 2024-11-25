@@ -9,8 +9,14 @@
             <p class="item__brand">{{ item.brand }}</p>
             <p class="item__price__text">&yen;<span class="item__price">{{ item.price }}</span>(税込)</p>
 
-            <div class="button__wrapper">
-                <!-- お気に入りボタンとコメント件数表示器？ -->
+            <div class="action__icons">
+                <div class="action__like">
+                    <LikeButton :itemId="item.id" :isLiked="isLiked" :likeCount="likeCount" v-if="likeCount >= 0"/>
+                </div>
+                <div class="action__comment">
+                    <img class="icon__comment" src="~assets/icons/comment.svg" alt="コメントアイコン">
+                    <span class="commetn__count">{{ commentCount }}</span>
+                </div>
             </div>
 
             <nuxt-link :to="{ name: 'purchase-item_id', params: { item_id: item.id } }" class="button__purchase">
@@ -40,37 +46,70 @@
 
 
             <div class="item__comments">
-                <!-- コメント機能閲覧と投稿フォーム -->
+                <Comments
+                    :itemId="itemId"
+                    :comments="comments"
+                    :commentCount="commentCount"
+                    :getComments="getComments"
+                />
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
+
+import Comments from '~/components/Comments.vue';
 definePageMeta({
     layout: 'default',
 });
 
 const item = ref()
+const isLiked = ref()
+const likeCount = ref()
+const comments = ref([])
+const commentCount = ref()
 const route = useRoute()
 // 動的パラメータを取得
 const itemId = route.params.item_id
 
+const client = useSanctumClient()
 const getItem = async () => {
     try {
-        const response = await fetch(`http://localhost:8080/api/items/${itemId}`)
-        // レスポンスのJSONデータを取得
-        const data = await response.json();
+        const response = await client(`http://localhost:8080/api/items/${itemId}`)
 
-        // 取得したデータの items プロパティを items に格納
-        item.value = data.item;
+        item.value = response.item
     } catch (error) {
         console.error('商品情報取得エラー', error)
     }
 }
 
+const getLikes = async () => {
+    try {
+        const response = await client(`http://localhost:8080/api/likes/${itemId}`)
+
+        isLiked.value = response.isLiked,
+        likeCount.value = response.like_count
+    } catch (error) {
+        console.error('お気に入り取得エラー', error)
+    }
+}
+
+const getComments = async () => {
+    try {
+        const response = await client(`http://localhost:8080/api/comments/${itemId}`)
+
+        comments.value = response.comments,
+        commentCount.value = response.comment_count
+    } catch (error) {
+        console.error('コメント取得エラー', error)
+    }
+}
+
 onMounted(async () => {
     await getItem();
+    await getLikes();
+    await getComments();
 })
 </script>
 
@@ -86,6 +125,8 @@ onMounted(async () => {
         box-sizing: border-box;
 
         .item__image {
+            position: sticky; /* 追従する設定 */
+            top: 120px; /* 上部からの距離 */
             width: 100%;
             aspect-ratio: 1 / 1; /* 正方形のアスペクト比を設定 */
             object-fit: cover;   /* 短い方を基準に画像を中央に表示 */
@@ -111,6 +152,31 @@ onMounted(async () => {
             font-size: 30px;
             .item__price {
                 font-size: 45px;
+            }
+        }
+
+        .action__icons {
+            display: flex;
+            gap: 64px;
+            margin-left: 45px;
+
+            .action__like {
+                display: flex;
+                flex-direction: column; /* 子要素を縦方向に並べる */
+                align-items: center;    /* 左右中央揃え */
+                gap: 5px;
+            }
+
+            .action__comment {
+                display: flex;
+                flex-direction: column; /* 子要素を縦方向に並べる */
+                align-items: center;    /* 左右中央揃え */
+                gap: 5px;
+
+                .icon__comment {
+                    width: 40px;
+                    height: 40px;
+                }
             }
         }
 
