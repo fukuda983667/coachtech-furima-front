@@ -92,7 +92,7 @@ onMounted(async () => {
 
     .list__item {
         margin-bottom: 50px;
-        padding: 0 2.5%;
+        padding: 0 clamp(10px, 2.5%, 30px);
         width: 25%; /* 各アイテムの幅を25%に設定 */
         list-style: none;
         box-sizing: border-box; /* パディングを含めて幅を計算 */

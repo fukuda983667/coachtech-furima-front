@@ -84,7 +84,7 @@ body {
 .button__wrapper {
     .link {
         color: white;
-        font-size: 24px;
+        font-size: 22px;
         text-decoration: none;
         border: none;
         cursor: pointer;
@@ -93,7 +93,7 @@ body {
         }
     }
     .link.sell {
-        padding: 10px 26px;
+        padding: 10px 20px;
         color: black;
         background-color: white;
         border-radius: 4px;

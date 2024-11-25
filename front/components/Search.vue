@@ -20,10 +20,12 @@ const searchQuery = computed({
 
 <style lang="scss" scoped>
 .search__input {
-    width: 40%;
+    flex-grow: 1;
+    max-width: 500px;
+    min-width: 250px;
     height: 50px;
     padding: 10px;
-    font-size: 24px;
+    font-size: 22px;
     outline: none;
     border: none;
     border-radius: 5px;
