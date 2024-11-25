@@ -55,10 +55,16 @@ body {
     padding: 0 20px;
     max-width: 1350px;
 }
+
+.footer{
+    height: 100px;
+}
 </style>
 
 <style lang="scss" scoped>
 .header {
+    position: sticky;
+    top: 0px;
     background-color: #000;
     .header__container {
         display: flex;
