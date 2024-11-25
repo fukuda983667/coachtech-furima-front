@@ -17,15 +17,12 @@ definePageMeta({
 
 const items = ref()
 
+const client = useSanctumClient()
 const getItems = async () => {
     try {
-        const response = await fetch('http://localhost:8080/api/items')
-        // レスポンスのJSONデータを取得
-        const data = await response.json();
+        const response = await client('http://localhost:8080/api/items')
 
-        // 取得したデータの items プロパティを items に格納
-        items.value = data.items;
-        console.log(items.value)
+        items.value = response.items;
     } catch (error) {
         console.error('全アイテム取得エラー', error)
     }
