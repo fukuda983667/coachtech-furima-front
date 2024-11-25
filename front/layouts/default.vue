@@ -6,6 +6,7 @@
                     <img src="../public/icon/logo.svg" alt="ヘッダーロゴ">
                 </a>
             </h1>
+            <Search></Search>
             <div class="button__wrapper" >
                 <NuxtLink class="link" v-if="isAuthenticated" @click="performLogout">ログアウト</NuxtLink>
                 <NuxtLink class="link" v-else to="/login">ログイン</NuxtLink>
@@ -52,8 +53,7 @@ body {
 
 .main {
     margin: 0 auto;
-    padding: 0 20px;
-    max-width: 1350px;
+    padding: 0;
 }
 
 .footer{
@@ -99,5 +99,4 @@ body {
         border-radius: 4px;
     }
 }
-
 </style>

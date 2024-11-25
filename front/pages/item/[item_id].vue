@@ -117,7 +117,9 @@ onMounted(async () => {
 <style lang="scss" scoped>
 .item-detail__container {
     display: flex;
-    margin-top: 95px;
+    margin: 0 auto;
+    padding: 0 20px;
+    max-width: 1350px;
 
     .item-detail__image {
         padding: 2.8% 2.8% 0;
