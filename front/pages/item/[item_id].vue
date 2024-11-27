@@ -7,7 +7,7 @@
         <div class="item-detail__sidebar">
             <h2 class="item__name">{{ item.name }}</h2>
             <p class="item__brand">{{ item.brand }}</p>
-            <p class="item__price__text">&yen;<span class="item__price">{{ item.price }}</span>(税込)</p>
+            <p class="item__price__text">&yen;<span class="item__price">{{ formatPrice(item.price) }}</span>(税込)</p>
 
             <div class="action__icons">
                 <div class="action__like">
@@ -106,6 +106,12 @@ const getComments = async () => {
         console.error('コメント取得エラー', error)
     }
 }
+
+// 価格をカンマ区切りでフォーマット
+const formatPrice = (price) => {
+    if (!price) return '';
+    return price.toLocaleString('ja-JP');
+};
 
 onMounted(async () => {
     await getItem();
