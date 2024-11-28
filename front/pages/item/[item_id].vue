@@ -40,7 +40,7 @@
 
                 <div class="item__condition__wrapper">
                     <h4 class="item__condition__text">商品の状態</h4>
-                    <span class="item__condition">{{ item.condition_text }}</span>
+                    <span class="item__condition">{{ item.condition.name }}</span>
                 </div>
             </div>
 
