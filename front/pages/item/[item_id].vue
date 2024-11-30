@@ -1,7 +1,12 @@
 <template>
     <div class="item-detail__container" v-if="item">
         <div class="item-detail__image">
-            <img :src="item.image_path" alt="商品画像" class="item__image"/>
+            <div class="item__image__wrapper">
+                <img :src="item.image_path" alt="商品画像" class="item__image" v-if="item.image_path" />
+                <div v-if="item.isSold" class="item__sold__label">
+                    <span class="item__sold__text">Sold</span>
+                </div>
+            </div>
         </div>
 
         <div class="item-detail__sidebar">
@@ -19,7 +24,12 @@
                 </div>
             </div>
 
-            <nuxt-link :to="{ name: 'purchase-item_id', params: { item_id: item.id } }" class="button__purchase">
+            <p class="message__sold" v-if="item.isSold">売り切れ</p>
+            <nuxt-link
+                :to="{ name: 'purchase-item_id', params: { item_id: item.id } }"
+                class="button__purchase"
+                v-if="!item.isSold"
+            >
                 購入手続きへ
             </nuxt-link>
 
@@ -133,13 +143,41 @@ onMounted(async () => {
         width: 50%;
         box-sizing: border-box;
 
-        .item__image {
-            position: sticky; /* 追従する設定 */
+        .item__image__wrapper {
+            position: sticky;
             top: 180px; /* 上部からの距離 */
             width: 100%;
-            aspect-ratio: 1 / 1; /* 正方形のアスペクト比を設定 */
-            object-fit: cover;   /* 短い方を基準に画像を中央に表示 */
+            aspect-ratio: 1 / 1;
             border-radius: 4px;
+            overflow: hidden;
+
+            .item__image {
+                width: 100%;
+                aspect-ratio: 1 / 1; /* 正方形のアスペクト比を設定 */
+                object-fit: cover;   /* 短い方を基準に画像を中央に表示 */
+                border-radius: 4px;
+            }
+
+            .item__sold__label {
+                position: absolute;
+                top: -23%; /* 上から5%移動 */
+                left: -23%; /* 左から5%移動 */
+                width: 45%;
+                height: 45%;
+                background-color: red;
+                display: flex;
+                align-items: flex-end; /* 下側に沿わせる */
+                justify-content: center;
+                transform: rotate(-45deg); /* 45度回転 */
+                transform-origin: center; /* 回転の基準を図形の中央に設定 */
+
+                .item__sold__text {
+                    margin-bottom: 4%; /* 下側に余白を追加 */
+                    color: white;
+                    font-size: clamp(8px, 4vw, 50px);
+                    font-weight: bold;
+                }
+            }
         }
     }
 
@@ -188,6 +226,11 @@ onMounted(async () => {
                     height: 40px;
                 }
             }
+        }
+
+        .message__sold {
+            color: red;
+            font-size: 20px;
         }
 
         .button__purchase {
