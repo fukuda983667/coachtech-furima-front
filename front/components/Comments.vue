@@ -73,7 +73,7 @@ const validationSchema = yup.object({
 });
 
 // useFormでバリデーション設定
-const { meta } = useForm({
+const { meta, resetForm } = useForm({
     validationSchema,
 });
 
@@ -101,12 +101,12 @@ const commentSubmit = async () => {
             },
         })
         // 成功時の処理
-        newComment.value = '' // コメント入力欄をクリア
-        props.getComments() // コメント送信成功後に親コンポーネントの getComments を呼び出す
-        console.log(response.message)
+        resetForm(); // フォーム全体をリセットすることで送信後にrequiredに引っかからなくなる
+        props.getComments(); // コメント送信成功後に親コンポーネントの getComments を呼び出す
+        console.log(response.message);
 
     } catch (error) {
-        console.error('コメント送信エラー:', error)
+        console.error('コメント送信エラー:', error);
     } finally {
         loading.value = false;  // リクエスト終了
     }
