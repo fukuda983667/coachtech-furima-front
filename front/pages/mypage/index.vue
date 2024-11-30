@@ -2,7 +2,7 @@
     <h2>mypage</h2>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 definePageMeta({
     middleware: ['sanctum:auth'],
 });
