@@ -27,7 +27,9 @@ export default defineNuxtConfig({
       user: "/api/user",
 
       likes: "/api/likes",
-      comments: "/api/comments"
+      comments: "/api/comments",
+      paymentMethods: "api/payment-methods",
+      purchases: "api/purchases"
     },
     csrf: {
       cookie: "XSRF-TOKEN",
