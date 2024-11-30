@@ -66,6 +66,7 @@ body {
     position: sticky;
     top: 0px;
     background-color: #000;
+    z-index: 1000; /* 他の要素の上に表示 */
     .header__container {
         display: flex;
         margin: 0 auto;
