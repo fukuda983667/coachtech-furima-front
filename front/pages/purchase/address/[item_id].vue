@@ -26,6 +26,11 @@
 
 
 <script setup>
+definePageMeta({
+    middleware: ['sanctum:auth'],
+});
+
+
 import { useAddressStore } from '~/stores/addressStore';
 import { useField, useForm } from "vee-validate";
 import * as yup from "yup";
@@ -106,8 +111,7 @@ const updateAddress = async () => {
 
     .form {
         margin-top: 60px;
-        width: 45%;
-        min-width: 500px;
+        width: 680px;
         .form__content {
             display: flex;
             margin-top: 65px;
@@ -123,9 +127,11 @@ const updateAddress = async () => {
             .input {
                 margin-top: 5px;
                 padding: 5px 7px;
-                font-size: 20px;
+                height: 45px;
+                font-size: 24px;
                 border: 1px solid #5F5F5F;
                 border-radius: 4px;
+                box-sizing: border-box;
             }
             .error__message {
                 margin: 15px 0 0;
