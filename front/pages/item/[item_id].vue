@@ -24,14 +24,15 @@
                 </div>
             </div>
 
+            <p class="message__owner" v-if="user.id === item.user_id">あなたの出品商品です</p>
             <p class="message__sold" v-if="item.isSold">売り切れ</p>
-            <nuxt-link
+            <NuxtLink
                 :to="{ name: 'purchase-item_id', params: { item_id: item.id } }"
                 class="button__purchase"
-                v-if="!item.isSold"
+                v-if="!item.isSold && user.id !== item.user_id"
             >
                 購入手続きへ
-            </nuxt-link>
+            </NuxtLink>
 
             <div class="item__description__wrapper">
                 <h3 class="item__description__text">商品説明</h3>
@@ -80,6 +81,7 @@ const likeCount = ref()
 const comments = ref([])
 const commentCount = ref(0)
 const route = useRoute()
+const { user } = useSanctumAuth()
 
 // 動的パラメータを取得。そのまま取得すると文字列としてidが格納されてしまう。
 const itemId = Number(route.params.item_id);
@@ -228,6 +230,10 @@ onMounted(async () => {
             }
         }
 
+        .message__owner {
+            color: green;
+            font-size: 20px;
+        }
         .message__sold {
             color: red;
             font-size: 20px;
