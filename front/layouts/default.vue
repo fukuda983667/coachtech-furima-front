@@ -51,6 +51,10 @@ body {
     font-family: "Inter", "Noto Sans JP", sans-serif;
 }
 
+button {
+    font-family: "Inter", "Noto Sans JP", sans-serif;
+}
+
 .main {
     margin: 0 auto;
     padding: 0;
