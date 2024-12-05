@@ -193,7 +193,8 @@ const commentSubmit = async () => {
             margin-top: 5px;
             padding: 10px 5px;
             height: 240px;
-            width: 100%;
+            max-width: 100%;
+            min-width: 100%;
             box-sizing: border-box;
             font-size: 20px;
             border: 2px solid #5F5F5F;
