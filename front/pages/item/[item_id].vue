@@ -24,12 +24,12 @@
                 </div>
             </div>
 
-            <p class="message__owner" v-if="user.id === item.user_id">あなたの出品商品です</p>
+            <p class="message__owner" v-if="isAuthenticated && user?.id === item.user_id">あなたの出品商品です</p>
             <p class="message__sold" v-if="item.isSold">売り切れ</p>
             <NuxtLink
                 :to="{ name: 'purchase-item_id', params: { item_id: item.id } }"
                 class="button__purchase"
-                v-if="!item.isSold && user.id !== item.user_id"
+                v-if="!item.isSold && (!isAuthenticated || user?.id !== item.user_id)"
             >
                 購入手続きへ
             </NuxtLink>
@@ -44,9 +44,11 @@
 
                 <div class="item__category__wrapper">
                     <h4 class="item__category__text">カテゴリー</h4>
-                    <span v-for="category in item.categories" :key="category.id" class="item__category">
-                        {{ category.name }}
-                    </span>
+                    <div class="category__list">
+                        <span v-for="category in item.categories" :key="category.id" class="category__list__item">
+                            {{ category.name }}
+                        </span>
+                    </div>
                 </div>
 
                 <div class="item__condition__wrapper">
@@ -81,7 +83,7 @@ const likeCount = ref()
 const comments = ref([])
 const commentCount = ref(0)
 const route = useRoute()
-const { user } = useSanctumAuth()
+const { user, isAuthenticated } = useSanctumAuth()
 
 // 動的パラメータを取得。そのまま取得すると文字列としてidが格納されてしまう。
 const itemId = Number(route.params.item_id);
@@ -258,15 +260,19 @@ onMounted(async () => {
             background-color: #D64545; /* ホバー時の色 */
         }
 
-        .item__description__text {
-            margin: 0;
-            font-size: 36px;
+        .item__description__wrapper {
+            margin: 10px 0 25px;
+            .item__description__text {
+                margin: 0;
+                font-size: 36px;
+            }
+            .item__description {
+                display: inline-block;
+                padding: 20px 0;
+                font-size: 24px;
+            }
         }
-        .item__description {
-            display: inline-block;
-            padding: 20px 0;
-            font-size: 24px;
-        }
+
 
         .item__information__text {
             margin: 0;
@@ -275,29 +281,33 @@ onMounted(async () => {
 
         .item__category__wrapper {
             display: flex;
-            margin-top: 15px;
-            align-items: center;
+            margin-top: 25px;
 
             .item__category__text {
                 margin: 0 40px 0 0;
+                width: 120px;
+                flex-shrink: 0;
                 font-size: 24px;
             }
-
-            .item__category {
-                display: inline-block;
-                margin-left: 25px;
-                padding: 0 25px 0;
-                height: 30px;
-                text-align: center;
-                font-size: 20px;
-                background-color: #D9D9D9;
-                border-radius: 15px;
+            .category__list {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px 20px;
+                .category__list__item {
+                    display: inline-block;
+                    padding: 0 25px 0;
+                    height: 30px;
+                    text-align: center;
+                    font-size: 20px;
+                    background-color: #D9D9D9;
+                    border-radius: 15px;
+                }
             }
         }
 
         .item__condition__wrapper {
             display: flex;
-            margin-top: 15px;
+            margin-top: 25px;
             align-items: center;
 
             .item__condition__text {
@@ -307,7 +317,6 @@ onMounted(async () => {
 
             .item__condition {
                 display: inline-block;
-                margin-left: 25px;
                 padding: 0 25px 0;
                 text-align: center;
                 font-size: 20px;
