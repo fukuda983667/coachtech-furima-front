@@ -154,7 +154,7 @@ onMounted(async () => {
             text-decoration: none;
             border: 2px solid #FF5555;
             border-radius: 10px;
-            line-height: 60px;
+            line-height: 56px;
             box-sizing: border-box;
             transition: background-color 0.3s ease;
             &:hover {
