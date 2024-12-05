@@ -1,26 +1,30 @@
 <template>
-    <div class="address__container">
+    <div class="profile__container">
         <h2 class="title">プロフィール設定</h2>
 
         <form class="form" @submit.prevent="updateProfile">
             <div class="form__content">
-                <div class="user__icon">
-                    <img
-                        class="user__icon__image"
-                        v-if="previewImage"
-                        :src="previewImage"
-                        alt="ユーザーアイコン"
+                <div class="image__upload">
+                    <div class="user__icon">
+                        <img
+                            class="user__icon__image"
+                            v-if="previewImage"
+                            :src="previewImage"
+                            alt="ユーザーアイコン"
+                        />
+                    </div>
+                    <label for="upload-image" class="button__upload-image__label">画像を選択する</label>
+                    <input
+                        id="upload-image"
+                        class="button__upload-image__input"
+                        type="file"
+                        accept="image/jpeg, image/png"
+                        @change="onImageChange"
                     />
                 </div>
-                <label for="upload-image" class="button__upload-image__label">画像を選択する</label>
-                <input
-                    id="upload-image"
-                    class="button__upload-image__input"
-                    type="file"
-                    accept="image/jpeg, image/png"
-                    @change="onImageChange"
-                />
+                <p class="error__message" v-if="imageError">{{ imageError }}</p>
             </div>
+
             <div class="form__content">
                 <label class="label" for="user-name">ユーザー名</label>
                 <input class="input" type="text" id="user-name" v-model="userName"/>
@@ -64,6 +68,7 @@ const client = useSanctumClient()
 
 const imagePath = ref(null); // 選択された画像パス
 const previewImage = ref(null); // プレビュー画像URL
+const imageError = ref(''); // 画像のエラーメッセージ
 
 // バリデーション設定▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
 const validationSchema = yup.object({
@@ -146,6 +151,12 @@ const onImageChange = (event) => {
         return;
     }
 
+    // ファイルサイズチェック（2048KB以下）
+    if (file.size > 2048 * 1024) {
+        imageError.value = "2048KB以下の画像を選択してください。";
+        return;
+    }
+
     // ファイルをプレビュー用に設定
     const reader = new FileReader();
     reader.onload = () => {
@@ -155,6 +166,8 @@ const onImageChange = (event) => {
 
     // 実際のアップロード処理用に設定
     imagePath.value = file;
+    // エラーメッセージをリセット
+    imageError.value = '';
 
     // 確認用ログ
     console.log('選択されたファイル:', imagePath.value);
@@ -172,7 +185,7 @@ onMounted(async () => {
 
 
 <style lang="scss" scoped>
-.address__container {
+.profile__container {
     display: flex;
     margin: 60px auto 0;
     padding: 0 20px;
@@ -195,9 +208,11 @@ onMounted(async () => {
             flex-direction: column; /* 子要素を縦方向に並べる */
             &:first-of-type {
                 margin: 0;
-                flex-direction: row; /* 最初の form__content を横並びに変更 */
-                align-items: center; /* 縦方向の中央揃え */
-                gap: 40px; /* 子要素間の余白 */
+                .image__upload {
+                    display: flex;
+                    align-items: center;
+                    gap: 0 40px;
+                }
 
                 .user__icon {
                     width: 150px;
@@ -232,9 +247,11 @@ onMounted(async () => {
                         border-color: #D64545;
                     }
                 }
-
                 .button__upload-image__input {
                     display: none;
+                }
+                .error__message {
+
                 }
             }
 
