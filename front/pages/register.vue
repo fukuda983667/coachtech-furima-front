@@ -31,7 +31,7 @@
             </div>
             <p class="error__message" v-if="passwordConfirmationError">{{ passwordConfirmationError }}</p>
 
-            <button class="button__submit" type="button" @click="register" :disabled="!isValid">登録する</button>
+            <button class="button__submit" type="button" @click="register" :disabled="!isValid || loading">登録する</button>
         </form>
         <NuxtLink class="link__login" to="/login">ログインはこちら</NuxtLink>
     </div>
@@ -50,6 +50,7 @@ definePageMeta({
 
 const { login } = useSanctumAuth()
 const router = useRouter()
+const loading = ref(false)  // リクエスト中の状態を管理
 
 
 // バリデーションスキーマの定義
@@ -90,6 +91,9 @@ const isValid = computed(() => meta.value.valid);
 
 // 会員登録
 const register = async () => {
+    if (loading.value) return;  // リクエスト中は何もしない
+    loading.value = true;  // リクエスト開始
+
     try {
         await fetch('http://localhost:8080/api/register', {
             method: 'POST',
@@ -110,6 +114,8 @@ const register = async () => {
         router.push('/message') // // 登録成功後、ホームページへ遷移
     } catch (error) {
         console.error('登録エラー:', error)
+    } finally {
+        loading.value = false;  // リクエスト終了
     }
 }
 </script>
