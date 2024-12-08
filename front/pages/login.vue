@@ -12,7 +12,7 @@
                 <input class="input" id="password" type="password" v-model="password" autocomplete="current-password"/>
             </div>
             <p class="error__message" v-if="passwordError">{{ passwordError }}</p>
-            <button class="button__submit" type="button" @click="performLogin" :disabled="!isValid">ログインする</button>
+            <button class="button__submit" type="button" @click="performLogin" :disabled="!isValid || loading">ログインする</button>
         </form>
         <NuxtLink class="link__register" to="/register">会員登録はこちら</NuxtLink>
     </div>
@@ -31,6 +31,7 @@ definePageMeta({
 
 const router = useRouter()
 const { login } = useSanctumAuth()
+const loading = ref(false)  // リクエスト中の状態を管理
 
 
 // バリデーションスキーマの定義
@@ -60,6 +61,9 @@ const isValid = computed(() => meta.value.valid);
 
 
 const performLogin = async () => {
+    if (loading.value) return;  // リクエスト中は何もしない
+    loading.value = true;  // リクエスト開始
+
     try {
         // 資格情報のペイロードを作成
         const credentials = {
@@ -74,6 +78,8 @@ const performLogin = async () => {
         router.push('/') // リダイレクト先
     } catch (error) {
         console.error('ログインに失敗しました:', error)
+    } finally {
+        loading.value = false;  // リクエスト終了
     }
 }
 </script>
