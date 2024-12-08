@@ -48,7 +48,7 @@ definePageMeta({
     layout: 'auth',
 });
 
-const { login } = useSanctumAuth()
+
 const router = useRouter()
 const loading = ref(false)  // リクエスト中の状態を管理
 
