@@ -67,7 +67,7 @@ const validationSchema = yup.object({
         .string()
         .required('パスワードを入力してください')
         .min(8, 'パスワードは8文字以上で入力してください')
-        .max(30, 'パスワードは30文字以下で入力してください'),
+        .max(255, 'パスワードは255文字以下で入力してください'),
     passwordConfirmation: yup
         .string()
         .oneOf([yup.ref('password'), null], 'パスワードが一致しません')
