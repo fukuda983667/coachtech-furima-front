@@ -2,17 +2,31 @@
     <div class="form__container">
         <form class="form" @submit.prevent>
             <h2 class="form__title">ログイン</h2>
+
             <div class="input__container">
                 <label for="email" class="label__email">メールアドレス</label>
                 <input class="input" id="email" type="text" v-model="email" autocomplete="username"/>
             </div>
             <p class="error__message" v-if="emailError">{{ emailError }}</p>
+
             <div class="input__container">
                 <label for="password" class="label__password">パスワード</label>
                 <input class="input" id="password" type="password" v-model="password" autocomplete="current-password"/>
             </div>
             <p class="error__message" v-if="passwordError">{{ passwordError }}</p>
-            <button class="button__submit" type="button" @click="performLogin" :disabled="!isValid || loading">ログインする</button>
+
+            <div class="button__wrapper">
+                <p v-if="backendErrorMessage" class="error__message">{{ backendErrorMessage }}</p>
+                <button
+                    class="button__submit"
+                    type="button"
+                    @click="performLogin"
+                    :disabled="!isValid || loading"
+                >
+                    ログインする
+                </button>
+            </div>
+
         </form>
         <NuxtLink class="link__register" to="/register">会員登録はこちら</NuxtLink>
     </div>
@@ -32,6 +46,7 @@ definePageMeta({
 const router = useRouter()
 const { login } = useSanctumAuth()
 const loading = ref(false)  // リクエスト中の状態を管理
+const backendErrorMessage = ref(null);
 
 
 // バリデーションスキーマの定義
@@ -63,6 +78,7 @@ const isValid = computed(() => meta.value.valid);
 const performLogin = async () => {
     if (loading.value) return;  // リクエスト中は何もしない
     loading.value = true;  // リクエスト開始
+    backendErrorMessage.value = null;
 
     try {
         // 資格情報のペイロードを作成
@@ -70,13 +86,17 @@ const performLogin = async () => {
             email: email.value,
             password: password.value,
         }
-        console.log(credentials);
         // ユーザーをログインさせる
         await login(credentials)
-
-        // ログイン成功後にリダイレクト
         router.push('/') // リダイレクト先
     } catch (error) {
+        // エラー応答を処理
+        if (error.response) {
+            console.log('エラーレスポンスデータ:', error.response); // レスポンス内容を確認
+            backendErrorMessage.value = error.response._data.message; // サーバーのエラーメッセージ
+        } else {
+            console.log('エラーにresponseがありません:', error); // レスポンスがない場合
+        }
         console.error('ログインに失敗しました:', error)
     } finally {
         loading.value = false;  // リクエスト終了
@@ -141,28 +161,34 @@ const performLogin = async () => {
     font-weight: bold;
 }
 
-
-.button__submit {
+.button__wrapper {
     margin-top: 80px;
-    display: inline-block; /* ボタンをインラインブロックに設定 */
-    padding: 15px; /* ボタンの内側の余白を設定 */
-    font-size: 26px; /* ボタンの文字サイズを設定 */
-    font-weight: bold;
-    color: #fff; /* テキストの色を白に設定 */
-    background-color: #ff5555; /* ボタンの背景色を設定 */
-    border-radius: 5px; /* ボタンの角を丸くする */
-    border: none; /* ボタンの枠線を消す */
-    cursor: pointer; /* マウスカーソルをポインターにする */
-    transition: background-color 0.3s; /* 背景色の変化にアニメーションを追加 */
-
-    &:disabled {
-        cursor: not-allowed;
+    .error__message {
+        margin: 0 auto 20px;
     }
+    .button__submit {
+        display: inline-block; /* ボタンをインラインブロックに設定 */
+        padding: 15px; /* ボタンの内側の余白を設定 */
+        width: 100%;
+        font-size: 26px; /* ボタンの文字サイズを設定 */
+        font-weight: bold;
+        color: #fff; /* テキストの色を白に設定 */
+        background-color: #ff5555; /* ボタンの背景色を設定 */
+        border-radius: 5px; /* ボタンの角を丸くする */
+        border: none; /* ボタンの枠線を消す */
+        cursor: pointer; /* マウスカーソルをポインターにする */
+        transition: background-color 0.3s; /* 背景色の変化にアニメーションを追加 */
 
-    &:not(:disabled):hover {
-        background-color: #d84b4b; /* ホバー時の背景色を設定 */
+        &:disabled {
+            cursor: not-allowed;
+        }
+
+        &:not(:disabled):hover {
+            background-color: #d84b4b; /* ホバー時の背景色を設定 */
+        }
     }
 }
+
 
 
 .link__register {
