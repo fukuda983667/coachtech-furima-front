@@ -84,10 +84,19 @@ const { value: newComment, errorMessage: commentError } = useField("comment");
 const isValid = computed(() => meta.value.valid);
 
 
+const router = useRouter()
 const loading = ref(false)  // リクエスト中の状態を管理
 const client = useSanctumClient()
-const { user } = useSanctumAuth()
+const { user, isAuthenticated } = useSanctumAuth()
+
+
 const commentSubmit = async () => {
+
+    // 未認証ならログインページにリダイレクト
+    if (!isAuthenticated.value) {
+        router.push('/login');
+    }
+
     if (loading.value) return;  // リクエスト中は何もしない
     loading.value = true;  // リクエスト開始
 

@@ -29,10 +29,19 @@ const itemId = props.itemId
 const isLiked = ref(props.isLiked);
 const likeCount = ref(props.likeCount);
 
+const router = useRouter()
 const loading = ref(false)  // リクエスト中の状態を管理
 const client = useSanctumClient()
-const { user } = useSanctumAuth()
+const { isAuthenticated } = useSanctumAuth()
+
+
 const toggleLike = async () => {
+
+    // 未認証ならログインページにリダイレクト
+    if (!isAuthenticated.value) {
+        router.push('/login');
+    }
+
     if (loading.value) return;  // リクエスト中は何もしない
     loading.value = true;  // リクエスト開始
 
