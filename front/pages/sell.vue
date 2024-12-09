@@ -116,7 +116,7 @@ const imageError = ref(''); // 画像のエラーメッセージ
 const categoriesError = ref(''); // カテゴリのエラーメッセージ
 const itemConditionError = ref(''); // 商品状態のエラーメッセージ
 
-const { user, refreshIdentity } = useSanctumAuth()
+const { refreshIdentity } = useSanctumAuth()
 const client = useSanctumClient()
 const router = useRouter()
 const loading = ref(false)  // リクエスト中の状態を管理
