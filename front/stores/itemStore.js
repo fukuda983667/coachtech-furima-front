@@ -22,7 +22,7 @@ export const useItemStore = defineStore('itemStore', () => {
         let result = [...items.value];
 
         if (filterType.value === 'favorites') {
-            result = result.filter((item) => item.isLiked);
+            result = result.filter((item) => item.is_liked);
         }
 
         if (searchQuery.value) {

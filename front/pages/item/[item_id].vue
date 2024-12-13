@@ -3,7 +3,7 @@
         <div class="item-detail__image">
             <div class="item__image__wrapper">
                 <img :src="item.image_path" alt="商品画像" class="item__image" v-if="item.image_path" />
-                <div v-if="item.isSold" class="item__sold__label">
+                <div v-if="item.is_sold" class="item__sold__label">
                     <span class="item__sold__text">Sold</span>
                 </div>
             </div>
@@ -25,11 +25,11 @@
             </div>
 
             <p class="message__owner" v-if="isAuthenticated && user?.id === item.user_id">あなたの出品商品です</p>
-            <p class="message__sold" v-if="item.isSold">売り切れ</p>
+            <p class="message__sold" v-if="item.is_sold">売り切れ</p>
             <NuxtLink
                 :to="{ name: 'purchase-item_id', params: { item_id: item.id } }"
                 class="button__purchase"
-                v-if="!item.isSold && (!isAuthenticated || user?.id !== item.user_id)"
+                v-if="!item.is_sold && (!isAuthenticated || user?.id !== item.user_id)"
             >
                 購入手続きへ
             </NuxtLink>
@@ -103,7 +103,7 @@ const getLikes = async () => {
     try {
         const response = await client(`http://localhost:8080/api/likes/${itemId}`)
 
-        isLiked.value = response.isLiked,
+        isLiked.value = response.is_liked,
         likeCount.value = response.like_count
     } catch (error) {
         console.error('お気に入り取得エラー', error)

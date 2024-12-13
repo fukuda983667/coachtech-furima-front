@@ -3,7 +3,7 @@
         <!-- 商品画像 -->
         <div class="item__image__wrapper">
             <img :src="item.image_path" alt="商品画像" class="item__image" v-if="item.image_path" />
-            <div v-if="item.isSold" class="item__sold__label">
+            <div v-if="item.is_sold" class="item__sold__label">
                 <span class="item__sold__text">Sold</span>
             </div>
         </div>

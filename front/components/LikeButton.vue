@@ -53,7 +53,7 @@ const toggleLike = async () => {
             },
         })
         // 成功時の処理
-        isLiked.value = response.isLiked  // 状態を更新
+        isLiked.value = response.is_liked  // 状態を更新
         likeCount.value = response.like_count; // カウントを更新
         console.log(response)
     } catch (error) {
