@@ -106,6 +106,19 @@ const isValid = computed(() => meta.value.valid);
 
 // バリデーション設定▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
+// デフォルトのアドレス情報取得
+const getAddress = async () => {
+    try {
+        const response = await client('/api/user/address')
+
+        address.value = response.address.address || '';
+        postalCode.value = response.address.postal_code || '';
+        buildingName.value = response.address.building_name || '';
+
+    } catch (error) {
+        console.error('コメント取得エラー', error)
+    }
+}
 
 // プロファイル更新処理
 const updateProfile = async () => {
@@ -151,9 +164,9 @@ const onImageChange = (event) => {
         return;
     }
 
-    // ファイルサイズチェック（2048KB以下）
-    if (file.size > 2048 * 1024) {
-        imageError.value = "2048KB以下の画像を選択してください。";
+    // ファイルサイズチェック（1024KB以下）
+    if (file.size > 1024 * 1024) {
+        imageError.value = "1024KB以下の画像を選択してください。";
         return;
     }
 
@@ -175,10 +188,8 @@ const onImageChange = (event) => {
 
 
 onMounted(async () => {
+    await getAddress()
     userName.value = user.value.name || "";
-    postalCode.value = user.value.postal_code || "";
-    address.value = user.value.address || "";
-    buildingName.value = user.value.building_name || "";
     previewImage.value = user.value.image_path || null;
 })
 </script>
