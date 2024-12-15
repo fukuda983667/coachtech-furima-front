@@ -21,11 +21,7 @@
                     :class="{ 'default__color': selectedPaymentMethod === 0 }"
                 >
                     <option value=0 disabled>選択してください</option>
-                    <option
-                        v-for="method in paymentMethods"
-                        :key="method.id"
-                        :value="method.id"
-                    >
+                    <option v-for="method in paymentMethods" :key="method.id" :value="method.id">
                         {{ method.name }}
                     </option>
                 </select>
@@ -66,10 +62,6 @@
                 </tr>
             </table>
 
-            <p v-if="errorMessage" class="error__message">
-                {{ errorMessage }}
-            </p>
-
             <button
                 class="purchase__button__submit"
                 @click="purchaseSubmit"
@@ -85,14 +77,17 @@
 
 <script setup>
 import { useAddressStore } from '~/stores/addressStore';
-import { usePaymentStore } from '~/stores/paymentStore';
 
 definePageMeta({
     middleware: ['sanctum:auth'],
 });
 
+const paymentMethods = ref([
+    { id: 1, name: 'コンビニ支払い' },
+    { id: 2, name: 'カード支払い' },
+]);
+const selectedPaymentMethod = ref(0);
 const item = ref()
-const paymentMethods = ref([]); // 支払い方法の選択肢をバックから受け取る
 const loading = ref(false)  // リクエスト中の状態を管理
 const router = useRouter()
 const route = useRoute()
@@ -114,16 +109,6 @@ const getItem = async () => {
     }
 }
 
-// 支払い方法の選択肢をバックから取得
-const getPaymentMethods = async () => {
-    try {
-        const response = await client('http://localhost:8080/api/payment-methods')
-
-        paymentMethods.value = response.paymentMethods
-    } catch (error) {
-        console.error('支払い方法選択肢取得エラー', error)
-    }
-}
 
 // 購入リクエスト送信
 const purchaseSubmit = async () => {
@@ -136,7 +121,7 @@ const purchaseSubmit = async () => {
             body: {
                 user_id: user.value.id,
                 item_id: item.value.id,
-                payment_method_id: selectedPaymentMethod.value,
+                payment_method: selectedPaymentMethod.value,
                 postal_code: addressStore.postalCode,
                 address: addressStore.address,
                 building_name: addressStore.buildingName,
@@ -157,11 +142,6 @@ const purchaseSubmit = async () => {
     }
 }
 
-// 支払い方法をpiniaから取得、変更したらpiniaの値を更新→改めてpiniaから取得
-const selectedPaymentMethod = computed({
-    get: () => paymentStore.selectedPaymentMethod, // ストアの値を取得
-    set: (value) => paymentStore.setPaymentMethod(value), // ストアの値を更新
-});
 
 // 選択された支払い方法名を取得
 const selectedPaymentMethodName = computed(() => {
@@ -189,7 +169,6 @@ const setAddressInitialValues = () => {
 
 onMounted(async () => {
     await getItem();
-    await getPaymentMethods();
     await setAddressInitialValues();
 })
 </script>
