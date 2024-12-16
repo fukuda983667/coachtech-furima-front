@@ -86,6 +86,7 @@ const paymentMethods = ref([
 ]);
 const selectedPaymentMethod = ref(0);
 const address = ref({
+    id: '',
     postalCode: '',
     address: '',
     buildingName: '',
@@ -118,6 +119,7 @@ const getAddress = async () => {
         if (changedAddressId) {
             const response = await client(`/api/user/address/${changedAddressId}`)
             address.value = {
+                id: response.address.id || '',
                 postalCode: response.address.postal_code || '',
                 address: response.address.address || '',
                 buildingName: response.address.building_name || '',
@@ -125,6 +127,7 @@ const getAddress = async () => {
         } else {
             const response = await client('/api/user/address/default')
             address.value = {
+                id: response.address.id || '',
                 postalCode: response.address.postal_code || '',
                 address: response.address.address || '',
                 buildingName: response.address.building_name || '',
@@ -146,10 +149,8 @@ const purchaseSubmit = async () => {
             body: {
                 user_id: user.value.id,
                 item_id: item.value.id,
+                address_id: address.value.id,
                 payment_method: selectedPaymentMethod.value,
-                postal_code: address.value.postalCode,
-                address: address.value.address,
-                building_name: address.value.buildingName,
             },
         })
         // 成功時の処理
