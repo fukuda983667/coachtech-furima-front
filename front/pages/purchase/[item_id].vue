@@ -38,9 +38,9 @@
                     </nuxt-link>
                 </div>
                 <div class="address__text">
-                    <p class="postal__code"><span>〒 </span>{{ addressStore.postalCode }}</p>
-                    <p class="address__detail">{{ addressStore.address }}</p>
-                    <p class="building_name">{{ addressStore.buildingName }}</p>
+                    <p class="postal__code"><span>〒 </span>{{ address.postalCode }}</p>
+                    <p class="address__detail">{{ address.address }}</p>
+                    <p class="building_name">{{ address.buildingName }}</p>
                 </div>
             </div>
 
@@ -76,8 +76,6 @@
 
 
 <script setup>
-import { useAddressStore } from '~/stores/addressStore';
-
 definePageMeta({
     middleware: ['sanctum:auth'],
 });
@@ -87,21 +85,24 @@ const paymentMethods = ref([
     { id: 2, name: 'カード支払い' },
 ]);
 const selectedPaymentMethod = ref(0);
+const address = ref({
+    postalCode: '',
+    address: '',
+    buildingName: '',
+});
 const item = ref()
 const loading = ref(false)  // リクエスト中の状態を管理
 const router = useRouter()
 const route = useRoute()
+const itemId = Number(route.params.item_id);
 const { user } = useSanctumAuth()
 const client = useSanctumClient()
-// 動的パラメータを取得。そのまま取得すると文字列としてidが格納されてしまう。
-const itemId = Number(route.params.item_id);
-const addressStore = useAddressStore();
-const paymentStore = usePaymentStore();
+
 
 // 特定の商品詳細取得
 const getItem = async () => {
     try {
-        const response = await client(`http://localhost:8080/api/items/${itemId}`)
+        const response = await client(`/api/items/${itemId}`)
 
         item.value = response.item
     } catch (error) {
@@ -109,6 +110,30 @@ const getItem = async () => {
     }
 }
 
+// ユーザの住所情報取得
+const getAddress = async () => {
+    try {
+        const changedAddressId = route.query.changedAddressId;
+
+        if (changedAddressId) {
+            const response = await client(`/api/user/address/${changedAddressId}`)
+            address.value = {
+                postalCode: response.address.postal_code || '',
+                address: response.address.address || '',
+                buildingName: response.address.building_name || '',
+            };
+        } else {
+            const response = await client('/api/user/address/default')
+            address.value = {
+                postalCode: response.address.postal_code || '',
+                address: response.address.address || '',
+                buildingName: response.address.building_name || '',
+            };
+        }
+    } catch (error) {
+        console.error('住所情報取得エラー', error)
+    }
+}
 
 // 購入リクエスト送信
 const purchaseSubmit = async () => {
@@ -122,17 +147,13 @@ const purchaseSubmit = async () => {
                 user_id: user.value.id,
                 item_id: item.value.id,
                 payment_method: selectedPaymentMethod.value,
-                postal_code: addressStore.postalCode,
-                address: addressStore.address,
-                building_name: addressStore.buildingName,
+                postal_code: address.value.postalCode,
+                address: address.value.address,
+                building_name: address.value.buildingName,
             },
         })
         // 成功時の処理
         console.log(response.message.value)
-        // アドレス情報をリセット
-        addressStore.resetAddress();
-        // 支払い方法をリセット
-        paymentStore.resetPaymentMethod();
 
         router.push('/') // リダイレクト先
     } catch (error) {
@@ -160,16 +181,10 @@ const formatPrice = (price) => {
     return price.toLocaleString('ja-JP');
 };
 
-// ユーザー情報をもとに住所の初期値を設定
-const setAddressInitialValues = () => {
-    if (!addressStore.postalCode) addressStore.postalCode = user.value.postal_code || '';
-    if (!addressStore.address) addressStore.address = user.value.address || '';
-    if (!addressStore.buildingName) addressStore.buildingName = user.value.building_name || '';
-};
 
 onMounted(async () => {
     await getItem();
-    await setAddressInitialValues();
+    await getAddress();
 })
 </script>
 

@@ -109,7 +109,7 @@ const isValid = computed(() => meta.value.valid);
 // デフォルトのアドレス情報取得
 const getAddress = async () => {
     try {
-        const response = await client('/api/user/address')
+        const response = await client('/api/user/address/default')
 
         address.value = response.address.address || '';
         postalCode.value = response.address.postal_code || '';

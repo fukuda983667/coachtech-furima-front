@@ -30,16 +30,14 @@ definePageMeta({
     middleware: ['sanctum:auth'],
 });
 
-
-import { useAddressStore } from '~/stores/addressStore';
 import { useField, useForm } from "vee-validate";
 import * as yup from "yup";
 
-const addressStore = useAddressStore();
-const route = useRoute();
 const router = useRouter();
-const loading = ref(false);
+const route = useRoute();
 const itemId = Number(route.params.item_id);
+const loading = ref(false);
+const client = useSanctumClient()
 
 
 // バリデーション設定▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
@@ -80,11 +78,19 @@ const updateAddress = async () => {
     loading.value = true;
 
     try {
-        // Piniaストアを使って住所情報を保存
-        addressStore.setAddress(postalCode.value, address.value, buildingName.value);
+        const response = await client('/api/user/address', {
+            method: 'POST',
+            body: {
+                postal_code: postalCode.value,
+                address: address.value,
+                building_name: buildingName.value,
+            },
+        });
 
+        // 登録後の住所情報を取得
+        const newAddress = response.address;
         // 住所更新後、購入ページに遷移
-        await router.push({ name: 'purchase-item_id', params: { item_id: itemId } });
+        await router.push({ name: 'purchase-item_id', params: { item_id: itemId }, query: {changedAddressId: newAddress.id}});
     } catch (error) {
         console.error('住所更新エラー', error);
     } finally {

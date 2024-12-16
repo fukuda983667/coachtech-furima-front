@@ -26,6 +26,7 @@ export default defineNuxtConfig({
       logout: "/api/logout",
       user: "/api/user",
 
+      address: "/api/address",
       likes: "/api/likes",
       comments: "/api/comments",
       paymentMethods: "api/payment-methods",

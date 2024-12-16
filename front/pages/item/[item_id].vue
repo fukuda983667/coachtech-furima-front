@@ -83,10 +83,9 @@ const likeCount = ref()
 const comments = ref([])
 const commentCount = ref(0)
 const route = useRoute()
+const itemId = Number(route.params.item_id);
 const { user, isAuthenticated } = useSanctumAuth()
 
-// 動的パラメータを取得。そのまま取得すると文字列としてidが格納されてしまう。
-const itemId = Number(route.params.item_id);
 
 const client = useSanctumClient()
 const getItem = async () => {
