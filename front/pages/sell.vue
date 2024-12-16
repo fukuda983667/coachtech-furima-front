@@ -252,9 +252,9 @@ const onImageChange = (event) => {
         return;
     }
 
-    // ファイルサイズチェック（2048KB以下）
-    if (file.size > 2048 * 1024) {
-        imageError.value = "2048KB以下の画像を選択してください。";
+    // ファイルサイズチェック（1024KB以下）
+    if (file.size > 1024 * 1024) {
+        imageError.value = "1024KB以下の画像を選択してください。";
         return;
     }
 
