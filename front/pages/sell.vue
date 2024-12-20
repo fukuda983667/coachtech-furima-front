@@ -225,7 +225,7 @@ const postItem = async () => {
             formData.append("image_path", imagePath.value); // キー名はAPI仕様と一致させる
         }
 
-        const response = await client('/api/items/', {
+        const response = await client('/api/items', {
             method: 'POST',
             body: formData,
         })
