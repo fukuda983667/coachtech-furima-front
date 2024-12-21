@@ -63,7 +63,7 @@ const { user } = useSanctumAuth()
 const client = useSanctumClient()
 const getMyPageItems = async () => {
     try {
-        const response = await client('http://localhost:8080/api/user/my-page')
+        const response = await client('/api/user/my-page/items')
 
         purchasedItems.value = response.purchased_items,
         listedItems.value = response.listed_items
