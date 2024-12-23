@@ -29,7 +29,7 @@
     docker-compose up -d --build
     ```
 
-4. Rese-backの環境構築に移ってください。https://github.com/fukuda983667/coachtech-furima-back
+4. coachtech-furima-backの環境構築に移ってください。https://github.com/fukuda983667/coachtech-furima-back
 
 5. アプリケーションがhttp://localhost:3000 で利用可能になります。
    ※coachtech-furima-backの環境構築が必要です。
