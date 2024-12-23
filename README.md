@@ -42,9 +42,14 @@
 ## URL
 
 - 開発環境(ホームページ) : http://localhost:3000
-- 一般ユーザ登録画面 : http://localhost:3000/register
-- 一般ユーザログイン画面 : http://localhost:3000/login
-
+- 会員登録画面 : http://localhost:3000/register
+- ログイン画面 : http://localhost:3000/login
+- 商品詳細画面 : http://localhost:3000/item/[item_id]
+- 商品購入画面 : http://localhost:3000/purchase/[item_id]
+- 送付先住所変更画面 : http://localhost:3000/purchase/address/[item_id]
+- 商品出品画面 : http://localhost:3000/sell
+- プロフィール画面 : http://localhost:3000/mypage
+- プロフィール編集画面 : http://localhost:3000/mypage/profile
 
 ## ローカルリポジトリの削除  
 `git clone`したローカルリポジトリを完全に削除します。  
