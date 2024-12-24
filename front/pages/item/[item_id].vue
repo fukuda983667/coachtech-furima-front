@@ -3,9 +3,7 @@
         <div class="item-detail__image">
             <div class="item__image__wrapper">
                 <img :src="item.image_path" alt="商品画像" class="item__image" v-if="item.image_path" />
-                <div v-if="item.is_sold" class="item__sold__label">
-                    <span class="item__sold__text">Sold</span>
-                </div>
+                <img class="label__sold" src="~assets/icons/sold.svg" alt="Soldアイコン" v-if="item.is_sold" />
             </div>
         </div>
 
@@ -161,25 +159,11 @@ onMounted(async () => {
                 border-radius: 4px;
             }
 
-            .item__sold__label {
+            .label__sold {
                 position: absolute;
-                top: -23%; /* 上から5%移動 */
-                left: -23%; /* 左から5%移動 */
-                width: 45%;
-                height: 45%;
-                background-color: red;
-                display: flex;
-                align-items: flex-end; /* 下側に沿わせる */
-                justify-content: center;
-                transform: rotate(-45deg); /* 45度回転 */
-                transform-origin: center; /* 回転の基準を図形の中央に設定 */
-
-                .item__sold__text {
-                    margin-bottom: 4%; /* 下側に余白を追加 */
-                    color: white;
-                    font-size: clamp(8px, 4vw, 50px);
-                    font-weight: bold;
-                }
+                top: 0;
+                left: 0;
+                width: 35%;
             }
         }
     }

@@ -88,14 +88,27 @@ onMounted(async () => {
         padding: 0;
         margin-left: -35px;
         margin-right: -35px;
-    }
 
-    .list__item {
-        margin-bottom: 50px;
-        padding: 0 clamp(10px, 2.5%, 30px);
-        width: 25%; /* 各アイテムの幅を25%に設定 */
-        list-style: none;
-        box-sizing: border-box; /* パディングを含めて幅を計算 */
+        .list__item {
+            margin-bottom: 50px;
+            padding: 0 30px;
+            width: 25%; /* 各アイテムの幅を25%に設定 */
+            list-style: none;
+            box-sizing: border-box; /* パディングを含めて幅を計算 */
+        }
+    }
+}
+
+
+
+/* タブレット（769px～1024px） */
+@media screen and (max-width: 1024px) {
+    .list__container {
+        .items__list {
+            .list__item {
+                width: 50%; /* 各アイテムの幅を50%に設定 */
+            }
+        }
     }
 }
 </style>
