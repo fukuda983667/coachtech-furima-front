@@ -1,9 +1,9 @@
 <template>
     <header class="header">
         <div class="header__container">
-            <h1>
+            <h1 class="header__logo">
                 <a class="link" href="/">
-                    <img src="../public/icon/logo.svg" alt="ヘッダーロゴ">
+                    <img class="logo__image" src="../public/icon/logo.svg" alt="ヘッダーロゴ">
                 </a>
             </h1>
         </div>
@@ -31,7 +31,12 @@ body {
     font-family: "Inter", "Noto Sans JP", sans-serif;
 }
 
+button {
+    font-family: "Inter", "Noto Sans JP", sans-serif;
+}
+
 .main {
+    margin: 0 auto;
     padding: 0;
 }
 </style>
@@ -47,9 +52,14 @@ body {
         max-width: 1300px;
         justify-content: space-between;
         align-items: center;
-            h1 {
+            .header__logo {
                 margin: 0;
                 height: 32px;
+                .link {
+                    .logo__image {
+                        width: 100%;
+                    }
+                }
             }
     }
 }
