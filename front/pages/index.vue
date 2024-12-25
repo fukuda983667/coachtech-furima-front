@@ -22,7 +22,7 @@
     <div class="list__container">
         <ul class="items__list">
             <li class="list__item" v-for="item in filteredItems" :key="item.id">
-                <Item :item="item" />
+                <Item class="item" :item="item" />
             </li>
         </ul>
     </div>
@@ -86,8 +86,8 @@ onMounted(async () => {
         display: flex;
         flex-wrap: wrap;
         padding: 0;
-        margin-left: -35px;
-        margin-right: -35px;
+        margin-left: -30px;
+        margin-right: -30px;
 
         .list__item {
             margin-bottom: 50px;
@@ -101,12 +101,22 @@ onMounted(async () => {
 
 
 
-/* タブレット（769px～1024px） */
+/* タブレット（～1024px） */
 @media screen and (max-width: 1024px) {
     .list__container {
+        padding: 0 20px;
         .items__list {
+            margin-left: -15px;
+            margin-right: -15px;
+
             .list__item {
-                width: 50%; /* 各アイテムの幅を50%に設定 */
+                margin-bottom: 25px;
+                padding: 0 15px;
+                width: 33.3%; /* 各アイテムの幅を50%に設定 */
+
+                :deep(.item__name) {
+                    font-size: 20px; // :deepで子コンポーネント(Item)までスコープ拡張
+                }
             }
         }
     }

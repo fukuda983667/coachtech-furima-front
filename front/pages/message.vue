@@ -1,5 +1,7 @@
 <template>
-    <p>認証メールを送信しました</p>
+    <div class="message__container">
+        <p class="message">認証メールを送信しました</p>
+    </div>
 </template>
 
 <script setup>
@@ -9,3 +11,9 @@ definePageMeta({
     layout: 'auth',
 });
 </script>
+
+<style lang="scss" scoped>
+.message__container {
+    padding: 0 20px;
+}
+</style>

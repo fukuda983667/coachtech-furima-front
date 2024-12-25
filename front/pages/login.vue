@@ -109,10 +109,13 @@ const performLogin = async () => {
 .form__container {
     display: flex;
     margin: 50px auto 0; /* 上下に余白を追加し、中央揃え */
-    width: 680px; /* カードの幅を設定 */
+    padding: 0 20px;
+    width: 100%; /* カードの幅を設定 */
+    max-width: 720px;
     flex-direction: column; /* 子要素を縦に配置 */
     text-align: center;
     background-color: #fff; /* 背景色を白に設定 */
+    box-sizing: border-box;
 
     .form {
         display: flex;
@@ -123,8 +126,6 @@ const performLogin = async () => {
     .form__title {
         margin: 0;
         font-size: 36px;
-        border-top-left-radius: 5px; /* 左上の角を丸くする */
-        border-top-right-radius: 5px; /* 右上の角を丸くする */
     }
 }
 
@@ -132,7 +133,7 @@ const performLogin = async () => {
 .input__container {
     display: flex;
     flex-direction: column; /* 子要素を縦に配置 */
-    margin-top: 20px; /* フィールド間の間隔を追加 */
+    margin-top: 20px;
 
     .label__email,
     .label__password {
@@ -143,13 +144,13 @@ const performLogin = async () => {
 
     .input {
         margin-top: 5px;
-        padding: 10px; /* 内側の余白を設定 */
+        padding: 10px;
         border: 1px solid #5F5F5F;
         border-radius: 4px;
-        font-size: 30px; /* 文字サイズを設定 */
+        font-size: 30px;
         outline: none; /* フォーカス時の枠線を消す */
-        width: 100%; /* 入力フィールドの幅を100%に設定 */
-        box-sizing: border-box; /* パディングを含めてボックスサイズを計算 */
+        width: 100%;
+        box-sizing: border-box;
     }
 }
 
@@ -167,17 +168,17 @@ const performLogin = async () => {
         margin: 0 auto 20px;
     }
     .button__submit {
-        display: inline-block; /* ボタンをインラインブロックに設定 */
-        padding: 15px; /* ボタンの内側の余白を設定 */
+        display: inline-block;
+        padding: 15px;
         width: 100%;
-        font-size: 26px; /* ボタンの文字サイズを設定 */
+        font-size: 26px;
         font-weight: bold;
-        color: #fff; /* テキストの色を白に設定 */
-        background-color: #ff5555; /* ボタンの背景色を設定 */
-        border-radius: 5px; /* ボタンの角を丸くする */
-        border: none; /* ボタンの枠線を消す */
-        cursor: pointer; /* マウスカーソルをポインターにする */
-        transition: background-color 0.3s; /* 背景色の変化にアニメーションを追加 */
+        color: #fff;
+        background-color: #ff5555;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
 
         &:disabled {
             cursor: not-allowed;
