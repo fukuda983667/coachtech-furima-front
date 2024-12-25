@@ -22,6 +22,7 @@ export default defineNuxtConfig({
     redirectIfUnauthenticated: false,
     endpoints: {
       csrf: "/sanctum/csrf-cookie",
+      register: "/api/register",
       login: "/api/login",
       logout: "/api/logout",
       user: "/api/user",
