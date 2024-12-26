@@ -5,7 +5,7 @@
             <button class="hamburger__button" @click="toggleMenu">
                 <img class="hamburger__image" src="../assets/icons/hamburger.svg" alt="hamburgerアイコン"/>
             </button>
-            <h1>
+            <h1 class="header__logo">
                 <a class="link" href="/">
                     <img src="../public/icon/logo.svg" alt="ヘッダーロゴ">
                 </a>
@@ -107,9 +107,12 @@ button {
         max-width: 1350px;
         justify-content: space-between;
         align-items: center;
-            h1 {
+            .header__logo {
                 margin: 0;
                 height: 32px;
+            }
+            .search {
+                margin: 0 10px;
             }
     }
 }
@@ -218,6 +221,7 @@ button {
 
             .search {
                 margin-left: auto;
+                margin-right: 0;
             }
         }
     }
