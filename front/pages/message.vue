@@ -14,6 +14,9 @@ definePageMeta({
 
 <style lang="scss" scoped>
 .message__container {
+    margin: 0 auto;
     padding: 0 20px;
+    max-width: 1350px;
+    box-sizing: border-box;
 }
 </style>
