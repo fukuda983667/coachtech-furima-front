@@ -72,8 +72,8 @@ const backendErrorMessage = ref(null);
 const validationSchema = yup.object({
     name: yup
         .string()
-        .required('ユーザー名を入力してください')
-        .max(30, 'ユーザー名は30文字以下で入力してください'),
+        .required('お名前を入力してください')
+        .max(30, 'お名前は30文字以下で入力してください'),
     email: yup
         .string()
         .required('メールアドレスを入力してください')
@@ -85,7 +85,7 @@ const validationSchema = yup.object({
         .max(255, 'パスワードは255文字以下で入力してください'),
     passwordConfirmation: yup
         .string()
-        .oneOf([yup.ref('password'), null], 'パスワードが一致しません')
+        .oneOf([yup.ref('password'), null], 'パスワードと一致しません')
         .required('確認用パスワードを入力してください'),
 });
 
