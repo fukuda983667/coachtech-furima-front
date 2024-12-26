@@ -114,7 +114,6 @@ const performLogin = async () => {
     max-width: 720px;
     flex-direction: column; /* 子要素を縦に配置 */
     text-align: center;
-    background-color: #fff; /* 背景色を白に設定 */
     box-sizing: border-box;
 
     .form {
