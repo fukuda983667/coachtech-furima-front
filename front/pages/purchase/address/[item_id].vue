@@ -103,7 +103,7 @@ const updateAddress = async () => {
 <style lang="scss" scoped>
 .address__container {
     display: flex;
-    margin: 60px auto 0;
+    margin: 50px auto 0;
     padding: 0 20px;
     max-width: 1350px;
     flex-direction: column; /* 子要素を縦方向に並べる */
@@ -117,7 +117,9 @@ const updateAddress = async () => {
 
     .form {
         margin-top: 60px;
-        width: 680px;
+        width: 100%; /* カードの幅を設定 */
+        max-width: 680px;
+        box-sizing: border-box;
         .form__content {
             display: flex;
             margin-top: 65px;

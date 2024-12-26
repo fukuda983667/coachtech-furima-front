@@ -305,7 +305,20 @@ onMounted(async () => {
                 font-size: 20px;
             }
         }
+    }
+}
 
+
+/* タブレット（～1024px） */
+@media screen and (max-width: 1024px) {
+    .item-detail__container {
+        flex-direction: column;
+        align-items: center;
+
+        .item-detail__image,
+        .item-detail__sidebar {
+            width: 65%;
+        }
     }
 }
 </style>

@@ -318,14 +318,14 @@ onMounted(async () => {
                 border: 1px solid black;
 
                 .purchase__summary__header {
-                    padding: 10px;
-                    width: 50%;
+                    padding: 5px;
+                    width: 40%;
                     font-size: 20px;
                     font-weight: 400;
                 }
                 .purchase__summary__data {
-                    padding: 10px;
-                    width: 50%;
+                    padding: 5px;
+                    width: 60%;
                     text-align: center;
                     font-size: 24px;
                     .purchase__price__text {
@@ -361,5 +361,19 @@ onMounted(async () => {
         }
     }
     // 画面右側サマリ画面▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+}
+
+
+@media screen and (max-width: 1024px) {
+    .purchase__container {
+        flex-direction: column;
+        align-items: center;
+        gap: 50px;
+
+        .purchase__detail__container,
+        .purchase__summary__container {
+            width: 65%;
+        }
+    }
 }
 </style>

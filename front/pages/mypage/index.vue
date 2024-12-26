@@ -145,16 +145,16 @@ onMounted(async () => {
         .link {
             display: inline-block;
             margin: 0;
-            height: 60px;
+            padding: 9.5px;
             width: 300px;
             color: #FF5555;
             font-size: 26px;
             font-weight: 700;
             text-align: center;
+            line-height: 38px;
             text-decoration: none;
             border: 2px solid #FF5555;
             border-radius: 10px;
-            line-height: 56px;
             box-sizing: border-box;
             transition: background-color 0.3s ease;
             &:hover {
@@ -213,6 +213,38 @@ onMounted(async () => {
         width: 25%; /* 各アイテムの幅を25%に設定 */
         list-style: none;
         box-sizing: border-box; /* パディングを含めて幅を計算 */
+    }
+}
+
+/* タブレット（～1024px） */
+@media screen and (max-width: 1024px) {
+    .mypage__header{
+        .mypage__header__container {
+            .link {
+                padding: 8px;
+                width: 240px;
+                font-size: 20px;
+            }
+        }
+    }
+
+
+    .list__container {
+        padding: 0 20px;
+        .items__list {
+            margin-left: -15px;
+            margin-right: -15px;
+
+            .list__item {
+                margin-bottom: 25px;
+                padding: 0 15px;
+                width: 33.3%; /* 各アイテムの幅を50%に設定 */
+
+                :deep(.item__name) {
+                    font-size: 20px; // :deepで子コンポーネント(Item)までスコープ拡張
+                }
+            }
+        }
     }
 }
 </style>
