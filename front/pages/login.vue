@@ -53,8 +53,8 @@ const backendErrorMessage = ref(null);
 const validationSchema = yup.object({
     email: yup
         .string()
-        .required('Emailを入力してください')
-        .email('有効なEmailを入力してください'),
+        .required('メールアドレスを入力してください')
+        .email('有効なメールアドレスを入力してください'),
     password: yup
         .string()
         .required('パスワードを入力してください')
